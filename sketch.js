@@ -1,4 +1,4 @@
-olinha = 20;
+let xBolinha = 20;
 let yBolinha = 20;
 let diametro = 20;
 let raio = diametro/2;
@@ -16,12 +16,11 @@ let raquetada;
 let ponto;
 function preload(){
   trilha = loadSound("trilha.mp3");
-    trilha.loop();
-  raquetada= loadSound("raquetada.mp3");
-  ponto= loadSound("ponto.mp3");
+  raquetada = loadSound("raquetada.mp3");
+  ponto = loadSound("ponto.mp3");
 }
 function setup() {
-   trilha.loop();
+  trilha.loop();
   createCanvas(600, 400);
 }
 
@@ -42,4 +41,53 @@ function draw() {
 function mostraBolinha(){
   circle(xBolinha,yBolinha,diametro);
  
-}function m
+}function movimentaBolinha(){
+ 
+  xBolinha = xBolinha + velocidadeXBolinha;
+ 
+   yBolinha = yBolinha + velocidadeYBolinha;
+ 
+}
+function verificaColisaoBorda(){
+    if(yBolinha + raio > height || yBolinha - raio<0){
+    velocidadeYBolinha *=-1
+  }
+  if(xBolinha + raio > width || xBolinha - raio<0){
+    ponto.play();
+    velocidadeXBolinha *=-1
+  }
+}
+function mostraRaquete(){
+  rect(xRaquete,yRaquete,raqueteComprimento,raqueteAltura);
+}
+function mostraRaqueteOponente(){
+  rect(xRaqueteOponente,yRaqueteOponente,raqueteComprimento,raqueteAltura);
+}
+function movimentaRaquete(){
+  if(keyIsDown(87)){//87 é W
+    yRaquete -=5;
+  }
+  if(keyIsDown(83)){//83 é S
+    yRaquete +=5;
+  }  
+}
+function movimentaRaqueteOponente(){
+  if(keyIsDown(UP_ARROW)){//87 é W
+    yRaqueteOponente -=5;
+  }
+  if(keyIsDown(DOWN_ARROW)){//83 é S
+    yRaqueteOponente +=5;
+  }  
+}
+function verificaColisaoRaquete(x,y){
+ colidiu = collideRectCircle(x,y,raqueteComprimento,raqueteAltura,xBolinha,yBolinha,raio);
+  if(colidiu){
+    raquetada.play();
+    velocidadeXBolinha *=-1;
+    if(xBolinha>100)
+    xBolinha = 579;
+    else
+      xBolinha = 21;
+     
+  }
+}
